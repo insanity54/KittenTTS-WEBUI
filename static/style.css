@@ -96,6 +96,7 @@ header h1 {
     letter-spacing: -1px;
     background: var(--primary-gradient);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -210,15 +211,15 @@ button:disabled {
 }
 
 #status-message {
-    background: #22c55e;
-    color: #000;
+    background: #00c853;
+    color: #000000;
     padding: 12px;
     border-radius: 8px;
     text-align: center;
     opacity: 0;
     transform: translateY(10px);
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 200, 83, 0.3);
 }
 
 #status-message.status-visible {
@@ -228,7 +229,7 @@ button:disabled {
 
 #status-message p {
     font-size: 0.9rem;
-    color: #000;
+    color: #000000;
     font-weight: 600;
 }
 
