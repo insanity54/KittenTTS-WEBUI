@@ -1,5 +1,7 @@
 # KittenTTS GUI
 
+[![CI](https://github.com/insanity54/KittenTTS-WEBUI/actions/workflows/ci.yml/badge.svg)](https://github.com/insanity54/KittenTTS-WEBUI/actions/workflows/ci.yml)
+
 A sleek, web-based interface for the **KittenTTS** text-to-speech engine. This application allows you to generate high-quality audio from text using various voices and automatically saves the output as unique WAV files.
 
 ## Features
