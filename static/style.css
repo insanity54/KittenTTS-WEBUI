@@ -4,11 +4,32 @@
     padding: 0;
 }
 
+html {
+  color-scheme: light dark;
+}
+
 body {
     font-family: sans-serif;
     max-width: 600px;
-    margin: 2rem auto;
+    margin: 0 auto;
     padding: 1rem;
+}
+
+nav {
+    display: flex;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 1rem;
+}
+
+nav a {
+    text-decoration: none;
+    color: #0066cc;
+}
+
+nav a:hover {
+    text-decoration: underline;
 }
 
 h1 {
@@ -42,4 +63,16 @@ button:disabled {
 
 #status-message {
     margin-top: 1rem;
+}
+
+footer {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #ccc;
+    display: flex;
+    gap: 1rem;
+}
+
+footer a {
+    color: #0066cc;
 }

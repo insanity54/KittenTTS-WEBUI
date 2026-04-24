@@ -21,12 +21,12 @@ OUTPUT_DIR = "output"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 
-class GenerateRequest(BaseModel):
+class SpeechRequest(BaseModel):
     text: str
     voice: str
 
 
-class GenerateResponse(BaseModel):
+class SpeechResponse(BaseModel):
     status: str
     filename: str
 
@@ -36,8 +36,8 @@ class Voice(BaseModel):
     gender: str
 
 
-@app.post("/api/generate", response_model=GenerateResponse)
-async def generate_audio(request: GenerateRequest):
+@app.post("/api/speech", response_model=SpeechResponse)
+async def create_speech(request: SpeechRequest):
     """Generate audio from text using the specified voice."""
     if not m:
         error_msg = f"TTS Model not initialized. {init_error if init_error else 'Please check console logs.'}"

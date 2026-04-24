@@ -1,0 +1,21 @@
+project_name: kittentts
+
+archives:
+  - id: Kittentts-WEBUI
+    files: []
+
+dockers:
+  - image_templates:
+      - ghcr.io/insanity54/kittentts:{{ .Tag }}
+      - ghcr.io/insanity54/kittentts:latest
+      - insanity54/kittentts:{{ .Tag }}
+      - insanity54/kittentts:latest
+    dockerfile: Dockerfile
+    context: .
+    skip_push: false
+
+release:
+  github:
+    owner: insanity54
+    name: KittenTTS-WEBUI
+  skip_upload: true
