@@ -1,6 +1,6 @@
 # KittenTTS GUI
 
-[![CI](https://github.com/insanity54/KittenTTS-WEBUI/actions/workflows/ci.yml/badge.svg)](https://github.com/insanity54/KittenTTS-WEBUI/actions/workflows/ci.yml)
+[![CI](https://github.com/insanity54/KittenTTS-WEBUI/actions/workflows/ci.yml/badge.svg)](https://github.com/insanity54/KittenTTS-WEBUI/actions/workflows/ci.yml) [![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)](https://hub.docker.com/r/insanity54/kittentts-webui) [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/insanity54/KittenTTS-WEBUI)
 
 A sleek, web-based interface for the **KittenTTS** text-to-speech engine. This application allows you to generate high-quality audio from text using various voices and automatically saves the output as unique WAV files.
 
