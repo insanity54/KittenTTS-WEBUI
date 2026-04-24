@@ -43,6 +43,16 @@ Alternatively, you can use the REST API.
 Created fork of https://github.com/KittenML/KittenTTS, with opinionated changes. The WebUI has been made more user friendly, and the CSS has been simplified. OpenAPI (Swagger) has been added at `/docs`. Added Dockerfile and goreleaser CI script.
 
 
+## Dev notes
+
+    uv run src/kittentts_webui
+
+## See also
+
+  * https://clowerweb.github.io/kitten-tts-web-demo/
+  * https://github.com/DipFlip/KittenTTSWeb
+
+
 ## Contributing
 
 Please feel free to open an issue or start a discussion. I run this TTS as part of my Twitch.tv streamer tools website https://confettihat.com so I want to keep it working good for myself and the community.

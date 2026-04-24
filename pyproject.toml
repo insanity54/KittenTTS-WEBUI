@@ -1,0 +1,26 @@
+[project]
+name = "kittentts-webui"
+version = "0.1.0"
+description = "KittenTTS WebUI with openapi and restdoc"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi",
+  "uvicorn",
+  "soundfile",
+  "kittentts @ git+https://github.com/KittenML/KittenTTS.git",
+]
+
+[project.scripts]
+test = "pytest:main"
+
+[project.optional-dependencies]
+test = [
+  "pytest",
+  "pytest-asyncio",
+  "httpx",
+  "soundfile",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"

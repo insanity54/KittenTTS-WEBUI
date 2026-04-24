@@ -1,34 +1,47 @@
+import io
 import os
 import time
+from contextlib import asynccontextmanager
+
+import soundfile as sf
+import uvicorn
 from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, Response
 from pydantic import BaseModel
 from kittentts import KittenTTS
-import uvicorn
 
-app = FastAPI(title="KittenTTS", version="1.0.0", description="High-quality text-to-speech API")
-
+m = None
 init_error = None
-try:
-    m = KittenTTS("KittenML/kitten-tts-mini-0.8")
-except Exception as e:
-    init_error = str(e)
-    print(f"Error initializing KittenTTS: {init_error}")
-    m = None
 
 OUTPUT_DIR = "output"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    global m, init_error
+    try:
+        m = KittenTTS("KittenML/kitten-tts-mini-0.8")
+    except Exception as e:
+        init_error = str(e)
+        print(f"Error initializing KittenTTS: {init_error}")
+        m = None
+    yield
+
+app = FastAPI(title="KittenTTS", version="1.0.0", description="High-quality text-to-speech API", lifespan=lifespan)
+
+
 class SpeechRequest(BaseModel):
     text: str
-    voice: str
+    voice: str = "Jasper"
+    speed: float = 1.0
+    save_file: bool = True
 
 
 class SpeechResponse(BaseModel):
     status: str
-    filename: str
+    filename: str | None = None
 
 
 class Voice(BaseModel):
@@ -38,35 +51,38 @@ class Voice(BaseModel):
 
 @app.post("/api/speech", response_model=SpeechResponse)
 async def create_speech(request: SpeechRequest):
-    """Generate audio from text using the specified voice."""
     if not m:
         error_msg = f"TTS Model not initialized. {init_error if init_error else 'Please check console logs.'}"
         raise HTTPException(status_code=500, detail=error_msg)
-    
+
     try:
-        audio = m.generate(request.text, voice=request.voice)
-        
-        timestamp = time.strftime("%Y%m%d-%H%M%S")
-        filename = f"{request.voice}_{timestamp}.wav"
-        filepath = os.path.join(OUTPUT_DIR, filename)
-        
-        counter = 1
-        while os.path.exists(filepath):
-            filename = f"{request.voice}_{timestamp}_{counter}.wav"
+        audio = m.generate(request.text, voice=request.voice, speed=request.speed)
+
+        if request.save_file:
+            timestamp = time.strftime("%Y%m%d-%H%M%S")
+            filename = f"{request.voice}_{timestamp}.wav"
             filepath = os.path.join(OUTPUT_DIR, filename)
-            counter += 1
-            
-        import soundfile as sf
-        sf.write(filepath, audio, 24000)
-        
-        return {"status": "success", "filename": filename}
+
+            counter = 1
+            while os.path.exists(filepath):
+                filename = f"{request.voice}_{timestamp}_{counter}.wav"
+                filepath = os.path.join(OUTPUT_DIR, filename)
+                counter += 1
+
+            sf.write(filepath, audio, 24000)
+            return {"status": "success", "filename": filename}
+        else:
+            buf = io.BytesIO()
+            sf.write(buf, audio, 24000, format="WAV")
+            buf.seek(0)
+            return Response(content=buf.read(), media_type="audio/wav")
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.get("/api/voices", response_model=list[Voice])
 async def get_voices():
-    """Get list of available voices."""
     return [
         {"name": "Bella", "gender": "Female"},
         {"name": "Kiki", "gender": "Female"},
@@ -81,7 +97,6 @@ async def get_voices():
 
 @app.get("/output/{filename}")
 async def download_file(filename: str):
-    """Download a generated audio file."""
     filepath = os.path.join(OUTPUT_DIR, filename)
     if not os.path.exists(filepath):
         raise HTTPException(status_code=404, detail="File not found")

@@ -1,0 +1,42 @@
+version: 2
+
+project_name: kittentts-webui
+
+builds: 
+  - skip: true
+
+
+dockers_v2:
+  - images:
+      - "insanity54/kittentts-webui"
+      - "ghcr.io/insanity54/kittentts-webui"
+    tags:
+      - "kittentts-{{.Env.KITTENTTS_VERSION}}"
+      - "{{ if .IsNightly }}nightly{{ end }}"
+      - "{{ if not .IsNightly }}latest{{ end }}"
+    labels:
+      "org.opencontainers.image.description": "Web UI, REST API, and openapi spec for KittenTTS (Text To Speech)"
+      "org.opencontainers.image.created": "{{.Date}}"
+      "org.opencontainers.image.name": "{{.ProjectName}}"
+      "org.opencontainers.image.revision": "{{.FullCommit}}"
+      "org.opencontainers.image.version": "{{.Env.KITTENTTS_VERSION}}"
+      "org.opencontainers.image.source": "{{.GitURL}}"
+    platforms:
+      - linux/amd64
+      - linux/arm64
+    dockerfile: dockerfiles/Dockerfile
+    build_args:
+      KITTENTTS_VERSION: "{{.Env.KITTENTTS_VERSION}}"
+    extra_files:
+      - static/index.html
+      - static/script.js
+      - static/style.css
+      - dist
+
+
+
+release:
+  github:
+    owner: insanity54
+    name: KittenTTS-WEBUI
+  skip_upload: true
