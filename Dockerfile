@@ -14,5 +14,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     uv pip install --system \
     fastapi uvicorn
 
+RUN python -c "from kittentts import KittenTTS; KittenTTS('KittenML/kitten-tts-mini-0.8')"
+
 EXPOSE 7689
 CMD ["python", "KittenTTS-WEBUI.py"]

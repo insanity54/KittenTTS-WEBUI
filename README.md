@@ -7,14 +7,15 @@ A sleek, web-based interface for the **KittenTTS** text-to-speech engine. This a
 ## Features
 
 - **Web GUI**: Easy-to-use interface built with FastAPI.
-- **High Quality**: Uses the `KittenML/kitten-tts-mini-0.8` model for superior voice quality.
+- **REST API**: OpenAPI (Swagger) JSON spec and ReDoc.
+- **High Quality**: Uses the `KittenML/kitten-tts-mini-0.8` model for great voice quality.
 - **Multiple Voices**: Choose from a variety of male and female voices (Bella, Kiki, Luna, Rosie, Bruno, Hugo, Jasper, Leo).
 - **Auto-Saving**: Audio files are automatically saved to an `output/` directory with unique timestamps.
 - **CPU Efficient**: Works seamlessly without requiring a GPU.
 
 ## Usage
 
-   docker run --rm --name kittentts -p 7689:7689 -it insanity54/kittentts
+    docker run --rm --name kittentts -p 7689:7689 -it insanity54/kittentts
 
 Visit http://localhost:7689 in your web browser.
 
@@ -22,17 +23,17 @@ Visit http://localhost:7689 in your web browser.
 
 Alternatively, you can use the REST API.
 
-   http POST localhost:7689/api/speech "text=hello world" "voice=Kiki"
-   HTTP/1.1 200 OK
-   content-length: 58
-   content-type: application/json
-   date: Fri, 24 Apr 2026 07:18:46 GMT
-   server: uvicorn
+    http POST localhost:7689/api/speech "text=hello world" "voice=Kiki"
+    HTTP/1.1 200 OK
+    content-length: 58
+    content-type: application/json
+    date: Fri, 24 Apr 2026 07:18:46 GMT
+    server: uvicorn
 
-   {
-      "filename": "Kiki_20260424-071847.wav",
-      "status": "success"
-   }
+    {
+        "filename": "Kiki_20260424-071847.wav",
+        "status": "success"
+    }
 
 
 ## Changelog
@@ -42,3 +43,6 @@ Alternatively, you can use the REST API.
 Created fork of https://github.com/KittenML/KittenTTS, with opinionated changes. The WebUI has been made more user friendly, and the CSS has been simplified. OpenAPI (Swagger) has been added at `/docs`. Added Dockerfile and goreleaser CI script.
 
 
+## Contributing
+
+Please feel free to open an issue or start a discussion. I run this TTS as part of my Twitch.tv streamer tools website https://confettihat.com so I want to keep it working good for myself and the community.
